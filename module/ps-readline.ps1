@@ -10,12 +10,12 @@ Set-PSReadLineOption -MaximumHistoryCount 5000
 
 # Set a custom theme
 Set-PSReadLineOption -Colors @{
-    Command            = 'Cyan'
-    Comment            = 'Green'
-    Keyword            = 'Yellow'
-    String             = 'Magenta'
-    Operator           = 'White'
-    Parameter          = 'Blue'
-    Default            = 'Gray'
-    Error              = 'Red'
+    Command   = 'Cyan'
+    Comment   = 'Green'
+    Keyword   = 'Yellow'
+    String    = 'Magenta'
+    Operator  = 'White'
+    Parameter = 'Blue'
+    Default   = 'Gray'
+    Error     = 'Red'
 }

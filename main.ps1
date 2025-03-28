@@ -1,5 +1,4 @@
-# C:\Users\tawat\Dev\PowerShell\main.ps1
-$rootMainPath = "C:\Users\tawat\Dev\PowerShell"
+$rootMainPath = "C:\Users\$env:USERNAME\Dev\my-powershell"
 $functionsFolder = "$PSScriptRoot\Functions"
 if (Test-Path $functionsFolder) {
     Get-ChildItem -Path $functionsFolder -Filter *.ps1 | ForEach-Object {

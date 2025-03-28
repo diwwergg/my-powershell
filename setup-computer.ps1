@@ -7,7 +7,7 @@ function Install-WingetPackage {
     winget install --id $PackageId -e --silent
 }
 
-function Package-Installed {
+function Test-PackageInstalled {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
@@ -32,7 +32,7 @@ $packages = @(
 )
 
 foreach ($pkg in $packages) {
-    if (Package-Installed -PackageId $pkg) {
+    if (Test-PackageInstalled -PackageId $pkg) {
         Write-Host "$pkg is already installed."
     }
     else {
