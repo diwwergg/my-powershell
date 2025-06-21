@@ -1,4 +1,4 @@
-$rootMainPath = "C:\Users\$env:USERNAME\Dev\my-powershell"
+$rootMainPath = $PSScriptRoot
 $functionsFolder = "$PSScriptRoot\Functions"
 if (Test-Path $functionsFolder) {
     Get-ChildItem -Path $functionsFolder -Filter *.ps1 | ForEach-Object {
@@ -13,8 +13,8 @@ if (-not (Get-Module -Name PSReadLine)) {
 }
 Import-Module "${rootMainPath}\module\lsdeluxe.ps1"
 Import-Module "${rootMainPath}\module\ps-readline.ps1"
-Import-Module "${rootMainPath}\utility\shortcut-open.ps1"
 Import-Module "${rootMainPath}\module\ps-readline.ps1"
+Import-Module "${rootMainPath}\module\fnm.ps1"
 Import-Module "${rootMainPath}\utility\shortcut-open.ps1"
 
 

@@ -28,16 +28,16 @@ $packages = @(
     "Peltoche.lsd",                # lsd - modern replacement for ls
     "JanDeDobbeleer.OhMyPosh",       # oh-my-posh for prompt themes
     "posh-git.posh-git",           # posh-git for Git enhancements
-    "Microsoft.PowerShell-PSReadLine"  # PSReadLine for shell editing
+    "Microsoft.PowerShell-PSReadLine",  # PSReadLine for shell editing
+    "Schniz.fnm"                   # fnm - Fast Node Manager
 )
 
 foreach ($pkg in $packages) {
     if (Test-PackageInstalled -PackageId $pkg) {
         Write-Host "$pkg is already installed."
-    }
-    else {
+    }    else {
         Write-Host "$pkg is not installed. Installing..."
-        # Install-WingetPackage -PackageId $pkg
+        Install-WingetPackage -PackageId $pkg
     }
 }
 
