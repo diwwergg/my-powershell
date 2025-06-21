@@ -1,1 +1,1 @@
-fnm env --use-on-cd | Out-String | Invoke-Expression
+fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
