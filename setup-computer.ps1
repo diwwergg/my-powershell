@@ -25,7 +25,6 @@ if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
 
 # List of package IDs from winget:
 $packages = @(
-    "Peltoche.lsd",                # lsd - modern replacement for ls (for lsdeluxe.ps1)
     "eza-community.eza",           # eza - modern replacement for ls (for eza.ps1)
     "JanDeDobbeleer.OhMyPosh",     # oh-my-posh for prompt themes (for oh-my-posh.ps1)
     "posh-git.posh-git",           # posh-git for Git enhancements (for main.ps1)

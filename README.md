@@ -11,7 +11,6 @@ This repository contains PowerShell scripts and modules for customizing and enha
   - **ps-readline.ps1**: Configures `PSReadLine` with custom key bindings, history settings, and color themes.
   - **fnm.ps1**: Integrates Fast Node Manager (fnm) for Node.js version management with automatic switching.
   - **oh-my-posh.ps1**: Configures and initializes oh-my-posh prompt theme engine. Automatically downloads all available themes from GitHub and stores them locally.
-  - **lsdeluxe.ps1**: Alternative module using `lsd` instead of `eza` (not loaded by default).
 - **utility/**: Contains utility scripts.
   - **shortcut-open.ps1**: Provides shortcuts for development tools (VS Code Insiders, Docker, WSL services) and web search functions (Google, DuckDuckGo, Bing, YouTube, GitHub, Stack Overflow).
 - **script/**: Contains additional setup scripts.
@@ -46,7 +45,7 @@ This repository contains PowerShell scripts and modules for customizing and enha
   - `youtube <query>` - Search YouTube
   - `github <query>` - Search GitHub
   - `so <query>` - Search Stack Overflow
-- **Automatic Setup**: `setup-computer.ps1` installs all required tools including fnm, lsd, oh-my-posh, posh-git, and PSReadLine. Note: `eza` must be installed separately if using the `eza.ps1` module.
+- **Automatic Setup**: `setup-computer.ps1` installs all required tools including fnm, oh-my-posh, posh-git, and PSReadLine. Note: `eza` must be installed separately if using the `eza.ps1` module.
 
 ## Usage
 
@@ -85,7 +84,6 @@ After setup, you'll have access to:
 
 ### Automatically Installed Tools
 The following tools are automatically installed via `setup-computer.ps1`:
-- **lsd** (`Peltoche.lsd`) - Modern replacement for ls with icons and colors
 - **oh-my-posh** (`JanDeDobbeleer.OhMyPosh`) - Prompt theme engine
 - **posh-git** (`posh-git.posh-git`) - Git integration for PowerShell
 - **PSReadLine** (`Microsoft.PowerShell-PSReadLine`) - Enhanced command-line editing (also auto-installed if missing when `main.ps1` runs)
@@ -95,8 +93,6 @@ The following tools are automatically installed via `setup-computer.ps1`:
 ```powershell
 winget install eza-community.eza
 ```
-
-**Note**: `lsdeluxe.ps1` is an alternative module that uses `lsd` instead of `eza`, but it's not loaded by default. To use it, replace the `eza.ps1` import in `main.ps1` with `lsdeluxe.ps1`.
 
 ## Installation
 

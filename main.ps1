@@ -1,20 +1,11 @@
-#region Module Imports
 Import-Module -Name posh-git -ErrorAction SilentlyContinue
-#endregion
 
-#region Core Functions
-function Import-ScriptsFromFolder {
-    param(
-        [string]$FolderPath
-    )
-    
-    if (Test-Path $FolderPath) {
-        Get-ChildItem -Path $FolderPath -Filter *.ps1 | ForEach-Object {
-            Import-Module $_.FullName
-        }
-    }
+# import modules from module folder
+Get-ChildItem -Path "$PSScriptRoot\module" -Filter *.ps1 | ForEach-Object {
+    Import-Module $_.FullName -ErrorAction SilentlyContinue
 }
-#endregion
 
-Import-ScriptsFromFolder -FolderPath "$PSScriptRoot\module"
-Import-ScriptsFromFolder -FolderPath "$PSScriptRoot\utility"
+# import scripts from utility folder
+Get-ChildItem -Path "$PSScriptRoot\utility" -Filter *.ps1 | ForEach-Object {
+    . $_.FullName
+}
