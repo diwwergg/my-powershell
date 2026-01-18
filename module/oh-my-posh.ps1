@@ -1,6 +1,8 @@
 # module/oh-my-posh.ps1
 # Oh-My-Posh theme configuration and initialization
 
+#region Theme Download Functions
+
 function Download-AllOhMyPoshThemes {
     param(
         [string]$ScriptRoot = $PSScriptRoot
@@ -97,6 +99,10 @@ function Download-AllOhMyPoshThemes {
     }
 }
 
+#endregion Theme Download Functions
+
+#region Theme Initialization Functions
+
 function Initialize-OhMyPoshTheme {
     param(
         [string]$ThemeName = "amro",
@@ -123,6 +129,10 @@ function Initialize-OhMyPoshTheme {
     
     return $null
 }
+
+#endregion Theme Initialization Functions
+
+#region Module Initialization
 
 # Initialize oh-my-posh on module import
 $previousOutputEncoding = [Console]::OutputEncoding
@@ -162,3 +172,5 @@ try {
 } finally {
     [Console]::OutputEncoding = $previousOutputEncoding
 }
+
+#endregion Module Initialization
