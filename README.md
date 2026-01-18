@@ -7,42 +7,61 @@ This repository contains PowerShell scripts and modules for customizing and enha
 - **main.ps1**: The main script that initializes the environment by importing modules and setting up configurations.
 - **setup-computer.ps1**: A script to automate the installation of essential tools and packages using `winget`.
 - **module/**: Contains custom PowerShell modules.
-  - **lsdeluxe.ps1**: Defines aliases and functions for the `lsd` command, a modern replacement for `ls`.
+  - **eza.ps1**: Defines aliases and functions for the `eza` command, a modern replacement for `ls` with extensive customization options.
   - **ps-readline.ps1**: Configures `PSReadLine` with custom key bindings, history settings, and color themes.
   - **fnm.ps1**: Integrates Fast Node Manager (fnm) for Node.js version management with automatic switching.
+  - **oh-my-posh.ps1**: Configures and initializes oh-my-posh prompt theme engine. Automatically downloads all available themes from GitHub and stores them locally.
+  - **lsdeluxe.ps1**: Alternative module using `lsd` instead of `eza` (not loaded by default).
 - **utility/**: Contains utility scripts.
-  - **shortcut-open.ps1**: Provides shortcuts for development tools including VS Code Insiders, Docker, and WSL services.
+  - **shortcut-open.ps1**: Provides shortcuts for development tools (VS Code Insiders, Docker, WSL services) and web search functions (Google, DuckDuckGo, Bing, YouTube, GitHub, Stack Overflow).
+- **script/**: Contains additional setup scripts.
+  - **ubuntu/setup_ubuntu_wsl.sh**: Ubuntu WSL setup script for configuring WSL environment.
+- **oh-my-posh/themes/**: Local directory containing oh-my-posh theme files (`.omp.json`). Themes are automatically downloaded from GitHub on first run.
+- **Functions/**: (Optional) Custom function scripts that are automatically loaded if the folder exists.
 
 ## Features
 
-- **Custom Prompt**: Configured with `oh-my-posh` using the Space theme for a visually appealing and informative prompt.
+- **Custom Prompt**: Configured with `oh-my-posh` using the "amro" theme by default (configurable via `$env:POSH_THEME_NAME`). All oh-my-posh themes are automatically downloaded from GitHub and stored locally for offline use.
 - **Enhanced Shell Editing**: `PSReadLine` is customized with:
   - Custom key bindings (Tab completion, Ctrl+Space menu completion, Ctrl+Backspace word deletion)
   - History management with deduplication and incremental saving (5000 entries max)
-  - Custom color scheme for syntax highlighting
-- **Modern File Listing**: `lsd` integration with helpful aliases:
-  - `ls` - Enhanced file listing with icons
-  - `la` - List all files including hidden ones
-  - `ll` - Long format listing with details
-  - `lg` - Group directories first
-  - `tree` - Tree view of directory structure
-- **Node.js Management**: Automatic fnm integration for seamless Node.js version switching
+  - Custom color scheme for syntax highlighting (cyan commands, green comments, yellow keywords, magenta strings, blue parameters, white operators, gray default, red errors)
+- **Modern File Listing**: `eza` integration with extensive aliases:
+  - **Basic**: `ls`, `la` (all files), `ll` (long format), `lla` (long all)
+  - **Sorted**: `lt`/`lta` (by time), `lS`/`lSa` (by size)
+  - **Filtered**: `ld`/`lda` (directories only), `lf`/`lfa` (files only)
+  - **Tree views**: `tree`, `tree3`, `treea`, `ltree`, `treed`, `treed3`, `treeda`, `ltreed`
+  - **Git integration**: `lg`, `lga` (with Git status)
+  - **Advanced**: `lsd` (detailed view), `llh` (with headers), `lp` (octal permissions)
+- **Node.js Management**: Automatic fnm integration for seamless Node.js version switching based on `.nvmrc` or `.node-version` files
 - **Development Shortcuts**: Quick access commands for:
   - `codei` - Open in VS Code Insiders
   - `docker` - Docker commands via WSL
   - `service` - WSL service management
   - `docker-compose` - Docker Compose via WSL
-- **Automatic Setup**: `setup-computer.ps1` installs all required tools including fnm, lsd, oh-my-posh, posh-git, and PSReadLine.
+- **Web Search**: Quick search functions:
+  - `google <query>` - Search Google
+  - `duckduckgo <query>` - Search DuckDuckGo
+  - `bing <query>` - Search Bing
+  - `youtube <query>` - Search YouTube
+  - `github <query>` - Search GitHub
+  - `so <query>` - Search Stack Overflow
+- **Automatic Setup**: `setup-computer.ps1` installs all required tools including fnm, lsd, oh-my-posh, posh-git, and PSReadLine. Note: `eza` must be installed separately if using the `eza.ps1` module.
 
 ## Usage
 
 ### Initial Setup
 1. Run `setup-computer.ps1` to install all required tools if running on a new machine.
-2. Add the following line to your PowerShell profile (`$PROFILE`):
+2. Install `eza` separately if you want to use the eza module:
    ```powershell
-   Import-Module "C:\path\to\your\my-powershell\main.ps1"
+   winget install eza-community.eza
    ```
-3. Restart your terminal to apply all changes.
+3. Add the following line to your PowerShell profile (`$PROFILE`):
+   ```powershell
+   . "C:\path\to\your\my-powershell\main.ps1"
+   ```
+   Note: Use `.` (dot-source) instead of `Import-Module` since `main.ps1` is a script file, not a module.
+4. Restart your terminal to apply all changes.
 
 ### Manual Initialization
 Alternatively, you can run `main.ps1` directly to initialize the environment for the current session:
@@ -52,9 +71,10 @@ Alternatively, you can run `main.ps1` directly to initialize the environment for
 
 ### Available Commands
 After setup, you'll have access to:
-- **File Navigation**: `ls`, `la`, `ll`, `lg`, `tree`
+- **File Navigation**: `ls`, `la`, `ll`, `lla`, `lg`, `tree`, `lt`, `lS`, `ld`, `lf`, and many more eza aliases
 - **Development**: `codei <path>`, `docker <command>`, `docker-compose <command>`
 - **System**: `service <command>` (WSL services)
+- **Web Search**: `google <query>`, `duckduckgo <query>`, `bing <query>`, `youtube <query>`, `github <query>`, `so <query>`
 - Enhanced prompt with Git integration and Node.js version display
 
 ## Requirements
@@ -68,8 +88,15 @@ The following tools are automatically installed via `setup-computer.ps1`:
 - **lsd** (`Peltoche.lsd`) - Modern replacement for ls with icons and colors
 - **oh-my-posh** (`JanDeDobbeleer.OhMyPosh`) - Prompt theme engine
 - **posh-git** (`posh-git.posh-git`) - Git integration for PowerShell
-- **PSReadLine** (`Microsoft.PowerShell-PSReadLine`) - Enhanced command-line editing
+- **PSReadLine** (`Microsoft.PowerShell-PSReadLine`) - Enhanced command-line editing (also auto-installed if missing when `main.ps1` runs)
 - **fnm** (`Schniz.fnm`) - Fast Node Manager for Node.js version management
+
+**Note**: The `eza.ps1` module requires `eza` to be installed separately. Install it manually with:
+```powershell
+winget install eza-community.eza
+```
+
+**Note**: `lsdeluxe.ps1` is an alternative module that uses `lsd` instead of `eza`, but it's not loaded by default. To use it, replace the `eza.ps1` import in `main.ps1` with `lsdeluxe.ps1`.
 
 ## Installation
 
@@ -90,8 +117,8 @@ The following tools are automatically installed via `setup-computer.ps1`:
    # Open your profile for editing
    notepad $PROFILE
    
-   # Add this line to the profile
-   Import-Module "C:\path\to\your\my-powershell\main.ps1"
+   # Add this line to the profile (use dot-source, not Import-Module)
+   . "C:\path\to\your\my-powershell\main.ps1"
    ```
 
 4. Restart your terminal to enjoy the enhanced PowerShell experience!
@@ -104,14 +131,27 @@ The following tools are automatically installed via `setup-computer.ps1`:
   - `Tab` - Standard completion
   - `Ctrl+Space` - Menu completion
   - `Ctrl+Backspace` - Delete word backwards
-- **Colors**: Custom syntax highlighting with cyan commands, green comments, yellow keywords
+- **Colors**: Custom syntax highlighting:
+  - Commands: Cyan
+  - Comments: Green
+  - Keywords: Yellow
+  - Strings: Magenta
+  - Operators: White
+  - Parameters: Blue
+  - Default: Gray
+  - Errors: Red
 
 ### Oh-My-Posh Theme
-Uses the "Space" theme (`space.omp.json`) which displays:
-- Current directory with Git status
-- Node.js version (when in a Node project)
-- Execution time for long-running commands
-- Error indicators for failed commands
+- **Default Theme**: Uses the "amro" theme (`amro.omp.json`) by default, which displays:
+  - Current directory with Git status
+  - Node.js version (when in a Node project)
+  - Execution time for long-running commands
+  - Error indicators for failed commands
+- **Theme Management**: 
+  - All available oh-my-posh themes are automatically downloaded from GitHub using git sparse-checkout on first run
+  - Themes are stored locally in `oh-my-posh/themes/` directory for offline use
+  - Change theme by setting the `$env:POSH_THEME_NAME` environment variable to any available theme name
+  - If a theme is not found locally, the module will attempt to download all themes from GitHub
 
 ## Notes
 
@@ -126,3 +166,7 @@ Uses the "Space" theme (`space.omp.json`) which displays:
 - If `winget` is not found, install it from the Microsoft Store or [GitHub releases](https://aka.ms/winget)
 - For fnm issues, ensure your Node.js projects have a `.nvmrc` or `.node-version` file
 - If aliases don't work, check your execution policy and ensure the profile is loaded correctly
+- If `eza` commands don't work, install eza manually: `winget install eza-community.eza`
+- If oh-my-posh theme doesn't load, check that the theme name is correct and that you have internet access (for automatic download). Themes are downloaded using git, so ensure git is installed and accessible
+- If themes fail to download, ensure git is installed and you have internet connectivity. The module uses git sparse-checkout to efficiently download only the themes directory
+- For WSL-related commands (`docker`, `service`), ensure WSL is installed and configured properly

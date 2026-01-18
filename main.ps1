@@ -11,7 +11,6 @@ Import-Module "$PSScriptRoot\module\ps-readline.ps1"
 Import-Module "$PSScriptRoot\module\fnm.ps1"
 Import-Module "$PSScriptRoot\module\oh-my-posh.ps1"
 Import-Module "$PSScriptRoot\utility\shortcut-open.ps1"
-Import-Module "$PSScriptRoot\utility\web-search.ps1"
 #endregion
 
 #region Function Loading
