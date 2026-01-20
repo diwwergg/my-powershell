@@ -5,10 +5,9 @@
 function codei { code-insiders $args }
 function docker { wsl docker $args }
 function service { wsl sudo -S service $args }
-function Start-Docker-Compose { wsl docker-compose $args }
+function Start-DockerCompose { wsl DOCKER_BUILDKIT=0 COMPOSE_DOCKER_CLI_BUILD=0 docker compose $args }
 
-Set-Alias -Name docker-compose -Value Start-Docker-Compose
-
+Set-Alias -Name docker-compose -Value Start-DockerCompose
 # Web search functions
 function google {
     $query = $args -join ' '
