@@ -139,35 +139,33 @@ $previousOutputEncoding = [Console]::OutputEncoding
 [Console]::OutputEncoding = [Text.Encoding]::UTF8
 
 try {
-    # Get the main script root from the caller's scope
-    # When imported from main.ps1, we need to get the parent script's directory
-    $callerScriptRoot = $null
-    
-    # Try to get PSScriptRoot from parent scope (where main.ps1 is)
-    try {
-        $callerScriptRoot = (Get-Variable -Name PSScriptRoot -Scope 1 -ErrorAction SilentlyContinue).Value
-    } catch {
-        # If that fails, try to get it from the call stack
-        $callStack = Get-PSCallStack
-        if ($callStack.Count -gt 1) {
-            $callerPath = $callStack[1].ScriptName
-            if ($callerPath) {
-                $callerScriptRoot = Split-Path -Parent $callerPath
+    if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
+        Write-Warning "oh-my-posh is not installed. Skipping prompt initialization. Install it with: winget install JanDeDobbeleer.OhMyPosh"
+    } else {
+        # Get the main script's directory (e.g. where main.ps1 lives) by walking the
+        # call stack for the first frame that isn't this module file itself.
+        # (Get-Variable -Scope N walks lexical scopes, not the call stack, so it does not
+        # reliably reach the caller's PSScriptRoot when this file is loaded via Import-Module.)
+        $callerScriptRoot = $null
+        foreach ($frame in Get-PSCallStack) {
+            if ($frame.ScriptName -and $frame.ScriptName -ne $PSCommandPath) {
+                $callerScriptRoot = Split-Path -Parent $frame.ScriptName
+                break
             }
         }
-    }
-    
-    # Fallback to module's directory if we can't find the caller's root
-    $scriptRoot = if ($callerScriptRoot) { $callerScriptRoot } else { $PSScriptRoot }
-    
-    $themeName = if ($env:POSH_THEME_NAME) { $env:POSH_THEME_NAME } else { "amro" }
-    $themeConfig = Initialize-OhMyPoshTheme -ThemeName $themeName -ScriptRoot $scriptRoot
-    
-    if ($themeConfig) {
-        oh-my-posh init pwsh --config $themeConfig | Invoke-Expression
-    } else {
-        oh-my-posh init pwsh | Invoke-Expression
-        Write-Warning "oh-my-posh theme '$themeName' not found and could not be downloaded. Using default theme. Available themes: https://github.com/JanDeDobbeleer/oh-my-posh/tree/main/themes"
+
+        # Fallback to this module's own directory if we can't find the caller's root
+        $scriptRoot = if ($callerScriptRoot) { $callerScriptRoot } else { $PSScriptRoot }
+
+        $themeName = if ($env:POSH_THEME_NAME) { $env:POSH_THEME_NAME } else { "amro" }
+        $themeConfig = Initialize-OhMyPoshTheme -ThemeName $themeName -ScriptRoot $scriptRoot
+
+        if ($themeConfig) {
+            oh-my-posh init pwsh --config $themeConfig | Invoke-Expression
+        } else {
+            oh-my-posh init pwsh | Invoke-Expression
+            Write-Warning "oh-my-posh theme '$themeName' not found and could not be downloaded. Using default theme. Available themes: https://github.com/JanDeDobbeleer/oh-my-posh/tree/main/themes"
+        }
     }
 } finally {
     [Console]::OutputEncoding = $previousOutputEncoding
