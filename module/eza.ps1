@@ -2,6 +2,10 @@
 # Modern replacement for ls command using eza
 # Install eza: winget install eza-community.eza
 
+if (-not (Get-Command eza -ErrorAction SilentlyContinue)) {
+    Write-Warning "eza is not installed. The eza.ps1 aliases will fail until it is. Install it with: winget install eza-community.eza"
+}
+
 function ListItemShow {
     eza --icons --group-directories-first @Args
 }

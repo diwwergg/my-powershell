@@ -14,7 +14,7 @@ function Test-PackageInstalled {
         [string]$PackageId
     )
     $result = winget list --id $PackageId -e 2>$null
-    return $result -match $PackageId
+    return [bool]($result -match [regex]::Escape($PackageId))
 }
 
 # Check if winget is available
